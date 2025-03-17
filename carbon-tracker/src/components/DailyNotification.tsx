@@ -4,39 +4,41 @@ import "./DailyNotification.css";
 
 const DailyNotification: React.FC = () => {
   const { state } = useContext(ActivityContext);
-  const [message, setMessage] = useState<string>("");
-  const [show, setShow] = useState<boolean>(false);
-  const lastSummaryCountRef = useRef<number>(0);
+  const [message, setMessage] = useState<string | null>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Track if "log today" notification was shown this session
+  const logTodayShownRef = useRef<boolean>(false);
+  const prevLogCountRef = useRef<number>(state.activities.length);
 
   useEffect(() => {
     const totalLogs = state.activities.length;
 
-    if (totalLogs === 0) {
-      // Show the "Don't forget to log today!" immediately
-      setMessage("Don't forget to log today!");
-      setShow(true);
-    } else if (totalLogs % 3 === 0 && totalLogs > lastSummaryCountRef.current) {
-      // Schedule the "View Summary" notification after 5 seconds
+    // If no logs exist and the "log today" message hasn't been shown yet, show it once per session
+    if (totalLogs === 0 && !logTodayShownRef.current) {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
       timeoutRef.current = setTimeout(() => {
-        setMessage("Don't forget to view the updated summary!");
-        setShow(true);
-        lastSummaryCountRef.current = totalLogs;
-
-        // Auto-hide after 3 seconds
-        setTimeout(() => setShow(false), 3000);
-      }, 5000);
-    } else {
-      setShow(false);
+        setMessage("Don't forget to log today!");
+        setTimeout(() => setMessage(null), 3000); // Hide after 3 seconds
+      },);
+    } 
+    // Show "View Summary" reminder every 3 logs, but only when a new log is added
+    else if (totalLogs > prevLogCountRef.current && totalLogs % 3 === 0) {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      timeoutRef.current = setTimeout(() => {
+        setMessage("View the updated summary!");
+        setTimeout(() => setMessage(null), 3000); // Hide after 3 seconds
+      }, 6000);
     }
+
+    prevLogCountRef.current = totalLogs; // Update previous log count
 
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
   }, [state.activities]);
 
-  if (!show) return null;
+  if (!message) return null;
   return <div className="daily-notification">{message}</div>;
 };
 
