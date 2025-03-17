@@ -1,0 +1,220 @@
+/**********************************************
+  CONTAINER & HEADER
+**********************************************/
+.activity-logger {
+    background-color: #f4f7f2; 
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 5px 4px 10px rgba(0, 0, 0, 0.1);
+    width: 600px;
+    min-height: 300px;
+    margin: 20px auto;
+  }
+  
+  .logger-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .activity-logger h2 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  /**********************************************
+    BUTTONS (Add Log, Clear Log, Close, Submit)
+  **********************************************/
+  .clear-log-btn {
+    background-color: rgba(229, 12, 12, 0.902); /* Eco-friendly green */
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: 0.3s ease-in-out;
+    margin-left: 8px;
+  }
+
+  .add-log-btn {
+    background-color: #388e3c; /* Eco-friendly green */
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: 0.3s ease-in-out;
+    margin-left: 8px;
+  }
+
+  .clear-log-btn:hover {
+    background-color: #b71c1c; /* Darken on hover */
+  }
+
+  .add-log-btn:hover {
+    background-color: #2e7d32; /* Darken on hover */
+  }
+  
+  .close-btn {
+    background-color: #d32f2f; /* Red for a clear close action */
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  
+  .close-btn:hover {
+    background-color: #b71c1c;
+  }
+  
+  .submit-btn {
+    background-color: #388e3c;
+    color: #fff;
+    border: none;
+    padding: 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: 0.3s ease-in-out;
+    width: 100%;
+    margin-top: 10px;
+  }
+  
+  .submit-btn:hover {
+    background-color: #2e7d32;
+  }
+  
+  /**********************************************
+    FORM OVERLAY
+  **********************************************/
+  .full-screen-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+  }
+  
+  .form-container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 50%;
+    max-width: 600px;
+    box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .activity-form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    background: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .activity-form label {
+    font-weight: bold;
+    margin-top: 5px;
+    font-size: 1rem;
+    color: #34495e;
+  }
+  
+  .activity-form input,
+  .activity-form select {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    width: 100%;
+  }
+  
+  /**********************************************
+    ACTIVITY LIST
+  **********************************************/
+  .activity-list {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  /* Activity Item Styling */
+  .activity-item {
+    background: #fff;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 0.9rem;
+    color: #333;
+    margin-bottom: 8px;
+    transition: transform 0.2s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    border-left: 4px solid;
+  }
+  
+  .activity-item:hover {
+    transform: scale(1.02);
+  }
+  
+  /* Indicators for Emission vs. Saved */
+  .green-indicator {
+    border-left-color: #388e3c;
+  }
+  
+  .red-indicator {
+    border-left-color: #d32f2f;
+  }
+  
+  /* Strong text for activity details */
+  .activity-item strong {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #2c3e50;
+  }
+  
+  .activity-item p {
+    font-size: 0.85rem;
+    color: #555;
+    margin: 4px 0;
+  }
+  
+  /* Placeholder text if no activities exist */
+  .placeholder {
+    color: #7d8f69;
+    font-style: italic;
+    text-align: center;
+  }
+  
+  /**********************************************
+    RESPONSIVE DESIGN
+  **********************************************/
+  @media (max-width: 768px) {
+    .activity-logger {
+      width: 90%;
+    }
+    .form-container {
+      width: 80%;
+    }
+  }
+  

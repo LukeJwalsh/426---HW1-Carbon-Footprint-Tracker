@@ -1,0 +1,47 @@
+/* Container for the summary */
+.summary-container {
+    padding: 20px;
+    background-color: #e8f5e9; /* Light green background */
+    border-radius: 8px;
+    margin: 0 auto;
+    max-width: 1200px;
+  }
+  
+  /* Title Styling */
+  .summary-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 20px;
+  }
+  
+  /* Container for the two charts */
+  .charts-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    align-items: stretch;
+    flex-wrap: wrap; /* Ensures responsiveness */
+  }
+  
+  /* Each graph will take equal space */
+  .charts-container > div {
+    flex: 1;
+    min-width: 45%;
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .charts-container {
+      flex-direction: column;
+    }
+    .charts-container > div {
+      width: 100%;
+    }
+  }
+  
