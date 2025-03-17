@@ -1,27 +1,37 @@
-#🌱 Carbon Footprint Tracker
+# 🌱 Carbon Footprint Tracker
 
-Overview
+## Overview
+The **Carbon Footprint Tracker** is a React-based web application that allows users to monitor their carbon footprint by logging daily activities. It features **data visualization, achievement tracking, and reminders** to encourage eco-friendly habits.
 
-The Carbon Footprint Tracker is a React-based web application that allows users to monitor their carbon footprint by logging daily activities. It features data visualization, achievement tracking, and reminders to encourage eco-friendly habits.
+---
 
-🚀 Features Implemented
+## Features Implemented
 
-✅ Activity Logging – Log activities like Driving, Flying, Bus usage, and Recycling to track emissions.✅ Achievements – Unlock rewards for reaching milestones, adding a gamified experience.✅ Summary Views – View bar graphs and line charts summarizing your carbon impact over time.✅ Local Storage – Data is persisted in local storage, ensuring it remains available across sessions.✅ Data Visualization – Interactive graphs display emissions per category and trends over time.
+- ✅ **Activity Logger** – Users can log daily activities such as **Driving, Flying, Bus usage, and Recycling**, with real-time carbon footprint calculations.
+- ✅ **Summary View** – Displays **interactive bar and line graphs** to visualize carbon emissions per category and trends over time.
+- ✅ **Local Storage** – Ensures all user data, including logs and achievements, is **persisted across sessions**, maintaining progress without requiring an account.
+- ✅ **Smart Notifications** – Notify users to log activities and check summary updates after every few logs.
+- ✅ **Achievements & Gamification** – Unlock **eco-friendly milestones** for logging activities, reducing carbon impact, and maintaining logging streaks.
+---
 
-🛠️ Setup Instructions
+## Setup Instructions
 
-1️⃣ Clone the Repository
-
+### 1️. Clone the Repository
+```sh
 git clone https://github.com/yourusername/carbon-tracker.git
 cd carbon-tracker
+```
 
-2️⃣ Install Dependencies
-
+### 2️. Install Dependencies
+```sh
 npm install
+```
 
-3️⃣ Start the Development Server
-
+### 3️. Start the Development Server
+```sh
 npm run dev
+```
 
-The app should now be running at http://localhost:5173/.
+The app should now be running at **[http://localhost:5173/](http://localhost:5173/)**.
+
 
