@@ -18,7 +18,7 @@ The **Carbon Footprint Tracker** is a React-based web application that allows us
 
 ### 1️. Clone the Repository
 ```sh
-git clone https://github.com/yourusername/carbon-tracker.git
+[git clone https://github.com/yourusername/carbon-tracker.git](https://github.com/LukeJwalsh/426---HW1-Carbon-Footprint-Tracker.git)
 cd carbon-tracker
 ```
 
