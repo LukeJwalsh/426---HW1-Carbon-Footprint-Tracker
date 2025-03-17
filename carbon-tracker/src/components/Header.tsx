@@ -16,10 +16,10 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
       <div className="flex items-center flex-wrap">
         <h1 className="text-3xl font-bold mr-4">{title} 🌱</h1>
         <nav className="flex flex-wrap">
-          <Link to="/" className="mr-4 text-white hover:underline glow-on-hover">
+          <Link to="/" className="mr-4 text-white hover: glow-on-hover">
             📓Activity Log
           </Link>
-          <Link to="/summary" className="text-white hover:underline glow-on-hover">
+          <Link to="/summary" className="text-white hover: glow-on-hover">
             📊Summary
           </Link>
         </nav>
