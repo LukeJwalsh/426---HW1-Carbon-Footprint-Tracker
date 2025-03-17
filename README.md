@@ -11,7 +11,7 @@ The **Carbon Footprint Tracker** is a React-based web application that allows us
 - **Summary View** – Displays **interactive bar and line graphs** to visualize carbon emissions per category and trends over time.
 - **Local Storage** – Ensures all user data, including logs and achievements, is **persisted across sessions**, maintaining progress without requiring an account.
 - **Smart Notifications** – Notify users to log activities and check summary updates after every three logs.
-- **Achievements & Gamification** – Unlock **eco-friendly milestones** for logging activities, reducing carbon impact, and maintaining logging streaks.
+- **Achievements & Gamification** – Unlock **eco-friendly milestones** for logging activities and reducing carbon impact.
 ---
 
 ## Setup Instructions
