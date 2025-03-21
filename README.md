@@ -19,15 +19,19 @@ The **Carbon Footprint Tracker** is a React-based web application that allows us
 ### 1️. Clone the Repository
 ```sh
 https://github.com/LukeJwalsh/426---HW1-Carbon-Footprint-Tracker.git
+```
+
+### 2. Navigate to the Directory
+```sh
 cd carbon-tracker
 ```
 
-### 2️. Install Dependencies
+### 3. Install Dependencies
 ```sh
 npm install
 ```
 
-### 3️. Start the Development Server
+### 4. Start the Development Server
 ```sh
 npm run dev
 ```
