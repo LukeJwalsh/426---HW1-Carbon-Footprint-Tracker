@@ -5,6 +5,7 @@ import Footer from "./components/Footer";
 import LogsAndAchievementsView from "./components/LogsAndAchievementsView";
 import SummaryView from "./components/SummaryView";
 import { ActivityProvider } from "./context/ActivityContext";
+import DailyNotification from "./components/DailyNotification";
 import "./index.css";
 
 const App: React.FC = () => {
@@ -18,7 +19,7 @@ const App: React.FC = () => {
           
           {/* App header with title */}
           <Header title="Carbon Tracker" />
-
+          <DailyNotification />
           {/* Main content area with route-specific views */}
           <main className="flex-1 bg-[#e8f5e9] p-4">
             <Routes>
