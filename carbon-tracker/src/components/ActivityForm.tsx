@@ -2,12 +2,13 @@ import React, { useContext } from "react";
 import { ActivityContext } from "../context/ActivityContext";
 
 const ActivityForm: React.FC = () => {
-  const { state, dispatch } = useContext(ActivityContext);
+  const { state, dispatch } = useContext(ActivityContext); // Access global state and dispatch
 
-  // The same handleSubmit logic as before
+  // Handle form submission
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
+    // Basic validation: ensure all fields are filled
     if (
       !state.formData.title ||
       !state.formData.category ||
@@ -21,6 +22,7 @@ const ActivityForm: React.FC = () => {
       return;
     }
 
+    // Ensure quantity is a valid positive number
     const quantity = parseFloat(state.formData.quantity);
     if (isNaN(quantity) || quantity <= 0) {
       dispatch({
@@ -30,6 +32,7 @@ const ActivityForm: React.FC = () => {
       return;
     }
 
+    // Check if category is valid
     const validCategories = ["Driving", "Flying", "Recycling", "Bus"] as const;
     if (!validCategories.includes(state.formData.category as any)) {
       dispatch({
@@ -39,6 +42,7 @@ const ActivityForm: React.FC = () => {
       return;
     }
 
+    // Calculate carbon impact and determine if it’s an emission or reduction
     let carbonImpact = 0;
     let isEmission = false;
 
@@ -63,8 +67,9 @@ const ActivityForm: React.FC = () => {
         break;
     }
 
+    // Create new activity object
     const newActivity = {
-      id: Date.now(),
+      id: Date.now(), // Unique ID based on timestamp
       title: state.formData.title,
       category: state.formData.category as "Driving" | "Flying" | "Recycling" | "Bus",
       quantity,
@@ -73,6 +78,7 @@ const ActivityForm: React.FC = () => {
       isEmission,
     };
 
+    // Dispatch action to add activity and reset the form
     dispatch({ type: "SUBMIT_ACTIVITY", activity: newActivity });
     dispatch({ type: "RESET_FORM" });
   };
@@ -80,13 +86,17 @@ const ActivityForm: React.FC = () => {
   return (
     <div className="full-screen-overlay">
       <div className="form-container">
+        {/* Button to close the form */}
         <button
           className="close-btn"
           onClick={() => dispatch({ type: "TOGGLE_FORM" })}
         >
           Close
         </button>
+
+        {/* Activity form */}
         <form onSubmit={handleSubmit} className="activity-form">
+          {/* Activity Name Input */}
           <label htmlFor="activity-title">Activity Name:</label>
           <input
             id="activity-title"
@@ -103,6 +113,7 @@ const ActivityForm: React.FC = () => {
             }
           />
 
+          {/* Category Dropdown */}
           <label htmlFor="activity-category">Category:</label>
           <select
             id="activity-category"
@@ -124,6 +135,7 @@ const ActivityForm: React.FC = () => {
             <option value="Recycling">♻️Recycling (lbs)</option>
           </select>
 
+          {/* Quantity Input */}
           <label htmlFor="activity-quantity">Quantity:</label>
           <input
             id="activity-quantity"
@@ -141,6 +153,7 @@ const ActivityForm: React.FC = () => {
             title="Enter the quantity"
           />
 
+          {/* Date Picker */}
           <label htmlFor="activity-date">Date:</label>
           <input
             id="activity-date"
@@ -157,6 +170,7 @@ const ActivityForm: React.FC = () => {
             title="Select a date"
           />
 
+          {/* Submit Button */}
           <button type="submit" className="submit-btn">
             Log Activity
           </button>

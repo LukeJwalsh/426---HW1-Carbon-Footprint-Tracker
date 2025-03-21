@@ -1,6 +1,6 @@
 import React, { createContext, useReducer, useEffect } from "react";
 
-// Define Activity Type
+// Define the shape of an activity entry
 export type ActivityType = {
   id: number;
   title: string;
@@ -8,19 +8,19 @@ export type ActivityType = {
   quantity: number;
   carbonImpact: number;
   date: string;
-  isEmission: boolean;
+  isEmission: boolean; // true = emission, false = reduction
 };
 
-// Define Achievement Type
+// Define the shape of an achievement
 export type AchievementType = {
   id: number;
-  title: string; // e.g., "Log 5 Activities"
+  title: string;
   progress: number;
   goal: number;
   isUnlocked: boolean;
 };
 
-// State now includes ephemeral unlockedAchievementsQueue
+// Global state shape
 type ActivityState = {
   activities: ActivityType[];
   achievements: AchievementType[];
@@ -32,10 +32,10 @@ type ActivityState = {
   };
   error: string | null;
   showForm: boolean;
-  unlockedAchievementsQueue: AchievementType[]; // ephemeral queue
+  unlockedAchievementsQueue: AchievementType[]; // temporary queue for UI feedback
 };
 
-// Action Types
+// All possible actions for the reducer
 type ActionType =
   | { type: "UPDATE_FIELD"; field: keyof ActivityState["formData"]; value: string }
   | { type: "SUBMIT_ACTIVITY"; activity: ActivityType }
@@ -46,92 +46,31 @@ type ActionType =
   | { type: "CLEAR_LOGS" }
   | { type: "REMOVE_UNLOCKED_ACHIEVEMENT" };
 
-// Initial Achievements
+// Initial list of achievements
 const initialAchievements: AchievementType[] = [
-    {
-      id: 1,
-      title: "Log 5 Activities",
-      progress: 0,
-      goal: 5,
-      isUnlocked: false,
-    },
-    {
-      id: 2,
-      title: "Log 10 Activities",
-      progress: 0,
-      goal: 10,
-      isUnlocked: false,
-    },
-    {
-      id: 3,
-      title: "Log activities for 5 days",
-      progress: 0,
-      goal: 5,
-      isUnlocked: false,
-    },
-    {
-      id: 4,
-      title: "Recycle 5 Different Days",
-      progress: 0,
-      goal: 5,
-      isUnlocked: false,
-    },
-    {
-      id: 5,
-      title: "Save 25 Carbon",
-      progress: 0,
-      goal: 25,
-      isUnlocked: false,
-    },
-    {
-      id: 6,
-      title: "Save 50 Carbon",
-      progress: 0,
-      goal: 50,
-      isUnlocked: false,
-    },
-    {
-      id: 7,
-      title: "Take the Bus 5 Times",
-      progress: 0,
-      goal: 5,
-      isUnlocked: false,
-    },
-    {
-      id: 8,
-      title: "Take the Bus 10 Times",
-      progress: 0,
-      goal: 10,
-      isUnlocked: false,
-    },
-    {
-      id: 9,
-      title: "Recycle 5lbs",
-      progress: 0,
-      goal: 5,
-      isUnlocked: false,
-    },
-    {
-      id: 10,
-      title: "Recycle 15lbs",
-      progress: 0,
-      goal: 15,
-      isUnlocked: false,
-    },
-  ];
-  
+  { id: 1, title: "Log 5 Activities", progress: 0, goal: 5, isUnlocked: false },
+  { id: 2, title: "Log 10 Activities", progress: 0, goal: 10, isUnlocked: false },
+  { id: 3, title: "Log activities for 5 days", progress: 0, goal: 5, isUnlocked: false },
+  { id: 4, title: "Recycle 5 Different Days", progress: 0, goal: 5, isUnlocked: false },
+  { id: 5, title: "Save 25 Carbon", progress: 0, goal: 25, isUnlocked: false },
+  { id: 6, title: "Save 50 Carbon", progress: 0, goal: 50, isUnlocked: false },
+  { id: 7, title: "Take the Bus 5 Times", progress: 0, goal: 5, isUnlocked: false },
+  { id: 8, title: "Take the Bus 10 Times", progress: 0, goal: 10, isUnlocked: false },
+  { id: 9, title: "Recycle 5lbs", progress: 0, goal: 5, isUnlocked: false },
+  { id: 10, title: "Recycle 15lbs", progress: 0, goal: 15, isUnlocked: false },
+];
 
-// Initial State
+// Initial state
 const initialState: ActivityState = {
   activities: [],
   achievements: initialAchievements,
   formData: { title: "", category: "", quantity: "", date: "" },
   error: null,
   showForm: false,
-  unlockedAchievementsQueue: [], // ephemeral, always starts empty
+  unlockedAchievementsQueue: [],
 };
 
-// Lazy initializer (does NOT load the ephemeral queue from local storage)
+// Initializes state from localStorage if available (excluding ephemeral queue)
 function init(initialState: ActivityState): ActivityState {
   let activities: ActivityType[] = [];
   let achievements: AchievementType[] = initialAchievements;
@@ -155,11 +94,10 @@ function init(initialState: ActivityState): ActivityState {
     }
   }
 
-  // unlockedAchievementsQueue always starts as empty
   return { ...initialState, activities, achievements, unlockedAchievementsQueue: [] };
 }
 
-// Reducer
+// Reducer function to handle state updates
 const activityReducer = (state: ActivityState, action: ActionType): ActivityState => {
   switch (action.type) {
     case "UPDATE_FIELD":
@@ -172,7 +110,7 @@ const activityReducer = (state: ActivityState, action: ActionType): ActivityStat
     case "SUBMIT_ACTIVITY": {
       const updatedActivities = [...state.activities, action.activity];
 
-      // Update achievements
+      // Update achievement progress based on new activity
       const updatedAchievements = state.achievements.map((achievement) => {
         switch (achievement.title) {
           case "Log 5 Activities":
@@ -182,6 +120,7 @@ const activityReducer = (state: ActivityState, action: ActionType): ActivityStat
               progress: achievement.progress + 1,
               isUnlocked: achievement.progress + 1 >= achievement.goal,
             };
+
           case "Log activities for 5 days": {
             const uniqueDates = new Set([
               ...state.activities.map((act) => act.date),
@@ -193,6 +132,7 @@ const activityReducer = (state: ActivityState, action: ActionType): ActivityStat
               isUnlocked: uniqueDates.size >= achievement.goal,
             };
           }
+
           case "Save 25 Carbon":
           case "Save 50 Carbon":
             if (!action.activity.isEmission) {
@@ -204,7 +144,9 @@ const activityReducer = (state: ActivityState, action: ActionType): ActivityStat
               };
             }
             return achievement;
+
           case "Take the Bus 5 Times":
+          case "Take the Bus 10 Times":
             if (action.activity.category === "Bus") {
               const newProgress = achievement.progress + 1;
               return {
@@ -214,6 +156,7 @@ const activityReducer = (state: ActivityState, action: ActionType): ActivityStat
               };
             }
             return achievement;
+
           case "Recycle 5lbs":
           case "Recycle 15lbs":
             if (action.activity.category === "Recycling") {
@@ -225,6 +168,7 @@ const activityReducer = (state: ActivityState, action: ActionType): ActivityStat
               };
             }
             return achievement;
+
           case "Recycle 5 Different Days":
             if (action.activity.category === "Recycling") {
               const recyclingUniqueDates = new Set(
@@ -240,12 +184,13 @@ const activityReducer = (state: ActivityState, action: ActionType): ActivityStat
               };
             }
             return achievement;
+
           default:
             return achievement;
         }
       });
 
-      // Determine newly unlocked achievements
+      // Compare new and old achievements to find newly unlocked ones
       const newlyUnlocked = state.achievements.reduce((acc, oldAch, index) => {
         if (!oldAch.isUnlocked && updatedAchievements[index].isUnlocked) {
           acc.push(updatedAchievements[index]);
@@ -253,7 +198,7 @@ const activityReducer = (state: ActivityState, action: ActionType): ActivityStat
         return acc;
       }, [] as AchievementType[]);
 
-      // ephemeral queue: we only store it in memory, not localStorage
+      // Add newly unlocked achievements to the ephemeral popup queue
       const newQueue = [...state.unlockedAchievementsQueue, ...newlyUnlocked];
 
       return {
@@ -295,21 +240,21 @@ const activityReducer = (state: ActivityState, action: ActionType): ActivityStat
   }
 };
 
-// Create Context
+// Create context to share state and dispatch globally
 export const ActivityContext = createContext<{
   state: ActivityState;
   dispatch: React.Dispatch<ActionType>;
 }>({ state: initialState, dispatch: () => {} });
 
-// Provider
+// Context Provider to wrap the app and provide state management
 export const ActivityProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [state, dispatch] = useReducer(activityReducer, initialState, init);
 
-  // Save only activities and achievements to localStorage
+  // Save only non-ephemeral state parts to localStorage when they change
   useEffect(() => {
     localStorage.setItem("activities", JSON.stringify(state.activities));
     localStorage.setItem("achievements", JSON.stringify(state.achievements));
-    // DO NOT SAVE unlockedAchievementsQueue (ephemeral)
+    // Don't store unlockedAchievementsQueue — it’s UI-only and resets on refresh
   }, [state.activities, state.achievements]);
 
   return (

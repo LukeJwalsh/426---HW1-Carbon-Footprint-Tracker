@@ -5,28 +5,29 @@ import ActivityForm from "./ActivityForm";
 import ActivityList from "./ActivityList";
 import "./ActivityLogger.css";
 
+// Optional prop for custom styling
 interface ActivityLoggerProps {
   className?: string;
 }
 
+// Main component for logging and displaying activities
 const ActivityLogger: React.FC<ActivityLoggerProps> = ({ className = "" }) => {
-  const { state, dispatch } = useContext(ActivityContext);
+  const { state, dispatch } = useContext(ActivityContext); // Access global state and dispatch
 
-  // Filter & Sort state
+  // Local state for filtering and sorting
   const [filterCategory, setFilterCategory] = useState("All");
   const [sortCriteria, setSortCriteria] = useState("DateAsc");
 
-  // Compute filtered and sorted activities using useMemo
+  // Filter and sort activities with useMemo for performance
   const filteredActivities = useMemo(() => {
     let activities = [...state.activities];
 
-    // Filter activities by category if a specific filter is selected
+    // Filter activities by category if a specific one is selected
     if (filterCategory !== "All") {
       activities = activities.filter((act) => act.category === filterCategory);
     }
 
-    // Sort activities based on sort criteria:
-    // For carbon, treat savings as negative values.
+    // Sort activities based on selected criteria
     switch (sortCriteria) {
       case "DateAsc":
         activities.sort(
@@ -40,6 +41,7 @@ const ActivityLogger: React.FC<ActivityLoggerProps> = ({ className = "" }) => {
         break;
       case "CarbonAsc":
         activities.sort((a, b) => {
+          // Treat saved carbon as negative to reflect positive impact
           const aImpact = a.isEmission ? a.carbonImpact : -a.carbonImpact;
           const bImpact = b.isEmission ? b.carbonImpact : -b.carbonImpact;
           return aImpact - bImpact;
@@ -61,17 +63,20 @@ const ActivityLogger: React.FC<ActivityLoggerProps> = ({ className = "" }) => {
 
   return (
     <div className={`activity-logger ${className}`}>
-      {/* Header Row: Show form toggling buttons */}
+      
+      {/* Header Section: shows Add and Clear buttons or the Activity Form */}
       {!state.showForm ? (
         <div className="logger-header">
           <h2 className="logger-title">ACTIVITY LOGGER</h2>
           <div>
+            {/* Show form to add new activity */}
             <button
               className="add-log-btn"
               onClick={() => dispatch({ type: "TOGGLE_FORM" })}
             >
               Add Log
             </button>
+            {/* Clear all activity logs */}
             <button
               className="clear-log-btn"
               onClick={() => dispatch({ type: "CLEAR_LOGS" })}
@@ -81,10 +86,11 @@ const ActivityLogger: React.FC<ActivityLoggerProps> = ({ className = "" }) => {
           </div>
         </div>
       ) : (
+        // Show the activity input form
         <ActivityForm />
       )}
 
-      {/* Filter & Sort Controls */}
+      {/* Filter and Sort Controls */}
       <ActivityFilters
         filterCategory={filterCategory}
         setFilterCategory={setFilterCategory}
@@ -92,7 +98,7 @@ const ActivityLogger: React.FC<ActivityLoggerProps> = ({ className = "" }) => {
         setSortCriteria={setSortCriteria}
       />
 
-      {/* Render the List of Activities */}
+      {/* Display the filtered and sorted activity list */}
       <ActivityList activities={filteredActivities} />
     </div>
   );

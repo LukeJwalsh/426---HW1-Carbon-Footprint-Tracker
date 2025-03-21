@@ -1,5 +1,6 @@
 import React from "react";
 
+// Props interface defining the filters and their setters
 interface ActivityFiltersProps {
   filterCategory: string;
   setFilterCategory: React.Dispatch<React.SetStateAction<string>>;
@@ -7,6 +8,7 @@ interface ActivityFiltersProps {
   setSortCriteria: React.Dispatch<React.SetStateAction<string>>;
 }
 
+// Component for filtering and sorting activities
 const ActivityFilters: React.FC<ActivityFiltersProps> = ({
   filterCategory,
   setFilterCategory,
@@ -15,7 +17,8 @@ const ActivityFilters: React.FC<ActivityFiltersProps> = ({
 }) => {
   return (
     <div className="filters flex flex-wrap gap-4 mb-4 items-center text-sm">
-      {/* Filter by Category */}
+      
+      {/* --- Filter by Category --- */}
       <div className="flex items-center space-x-2">
         <label htmlFor="filterCategory" className="font-semibold">
           Filter by Category:
@@ -23,7 +26,7 @@ const ActivityFilters: React.FC<ActivityFiltersProps> = ({
         <select
           id="filterCategory"
           value={filterCategory}
-          onChange={(e) => setFilterCategory(e.target.value)}
+          onChange={(e) => setFilterCategory(e.target.value)} // Update selected filter
           className="border border-gray-300 rounded px-2 py-1 text-sm
                      focus:outline-none focus:ring-1 focus:ring-blue-400
                      bg-white"
@@ -36,7 +39,7 @@ const ActivityFilters: React.FC<ActivityFiltersProps> = ({
         </select>
       </div>
 
-      {/* Sort Criteria */}
+      {/* --- Sort Criteria Dropdown --- */}
       <div className="flex items-center space-x-2">
         <label htmlFor="sortCriteria" className="font-semibold">
           Sort by:
@@ -44,7 +47,7 @@ const ActivityFilters: React.FC<ActivityFiltersProps> = ({
         <select
           id="sortCriteria"
           value={sortCriteria}
-          onChange={(e) => setSortCriteria(e.target.value)}
+          onChange={(e) => setSortCriteria(e.target.value)} // Update selected sort option
           className="border border-gray-300 rounded px-2 py-1 text-sm
                      focus:outline-none focus:ring-1 focus:ring-blue-400
                      bg-white"
